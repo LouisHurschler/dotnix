@@ -25,6 +25,22 @@
   # xdg.configHome
   # xdg.dataHome
 
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode.fhs;
+  };
+
+  home.shellAliases = {
+    ls = "eza";
+    la = "eza -a";
+    ll = "eza -la";
+    rmm = "trash";
+    rm = "rm -v";
+    cp = "cp -iv";
+    mv = "mv -iv";
+    mkdir = "mkdir -pv";    
+  };
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -53,9 +69,10 @@
   ifuse
 
   rustup
-  # gcc
+
+   # gcc
   # lldb
-  # clang-tools
+  clang-tools
   # gnumake
   # cmake
   # gdb
@@ -65,20 +82,14 @@
 
   # tcsh
   
-  # (python3.withPackages (ps: with ps; [
-  #   ipython
-  #   python-lsp-server
-  #   numpy
-  #   matplotlib
-  # ]))
-
-  # eigen
 
   qemu
   typst
   typst-lsp
+  texliveFull
+  ghostscript_headless
 	
-	starship
+	# starship
 	
 	zathura
 	spotify
@@ -86,16 +97,32 @@
   joplin
   joplin-desktop
 
+
   unzip
+  zip
   p7zip
-	exa
-	ripgrep
-	ripgrep-all
+  imagemagick
+  qpdf
+  ocamlPackages.cpdf
+	# exa
+	# ripgrep
+	# ripgrep-all
 	fd
 	sd
 	du-dust
   procs
   tealdeer
+  xclip
+
+  trash-cli
+  eza
+
+  lf
+
+  anki
+
+  openconnect
+  sshfs
   ];
 
   # ...other config, other config...
@@ -105,9 +132,9 @@
 
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting.enable = true;
   };
   # Or any other shell you're using.program.direnv.enable = true;
   programs.starship = {

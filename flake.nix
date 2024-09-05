@@ -24,14 +24,13 @@
 
       devShell.${system} = pkgs.mkShell {
         nativeBuildInputs = with pkgs; [
-          rnix-lsp
         ];
         buildInputs = [ ];
       };
 
 
       nixosConfigurations = {
-        louis-hp = lib.nixosSystem {
+        louish = lib.nixosSystem {
           inherit system;
           modules = [
             ./hardware-configuration.nix
