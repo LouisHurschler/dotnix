@@ -67,12 +67,14 @@
 	git
 	github-cli
   ifuse
-
+  toybox
+  iptables
+  
   rustup
 
    # gcc
   # lldb
-  clang-tools
+  # clang-tools
   # gnumake
   # cmake
   # gdb
@@ -81,6 +83,8 @@
   ventoy
 
   # tcsh
+  gnome-keyring
+  authenticator
   
 
   qemu
@@ -96,7 +100,9 @@
   xournalpp
   joplin
   joplin-desktop
-
+  libreoffice
+  light
+  brillo
 
   unzip
   zip
@@ -123,6 +129,7 @@
 
   openconnect
   sshfs
+  # toybox
   ];
 
   # ...other config, other config...
