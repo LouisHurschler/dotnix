@@ -11,7 +11,11 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  # boot.loader.systemd-boot.enable = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.useOSProber = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -21,35 +25,7 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # comment out for student project
   networking.networkmanager.enable = true;
-
-
-
-  # for student project
-  networking.firewall.enable = false;
-  networking.networkmanager.unmanaged = ["wlo1" "eno1"];
-  networking.interfaces.eno1.ipv4.addresses = [
-     { address = "192.168.1.1"; prefixLength = 24; }
-    ];
-  networking.interfaces.wlo1.ipv4.addresses = [
-     { address = "192.168.2.1"; prefixLength = 24; }
-    ];
-  # networking.sysctl."net.ipv4.ip_forward" = true;
-
-  boot.kernel.sysctl."net.ipv4.ip_forward" = true;
-  networking.firewall.extraCommands = ''
-    # Enable NAT for traffic from 192.168.2.0/24 going out through the LAN
-    iptables -t nat -A POSTROUTING -s 192.168.2.0/24 -o enp38s0u2u4 -j MASQUERADE  
-    '';
-  # networking.nat.enable = true;
-  # networking.nat.forwardPorts = [{
-  #   destination = "192.168.1.1:80";
-  #   proto = "tcp";
-  #   sourcePort = "§"
-  # }];
-
-
 
 
   # Set your time zone.
@@ -58,12 +34,36 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  
+  services = {
+      desktopManager.plasma6 = {
+        enable = true;
+        enableQt5Integration = true; #disable for qt6 full version
+      };
+      displayManager = {
+        defaultSession = "plasma";
+        sddm = {
+          enable = true;
+          # wayland.enable = true;
+        };
+      };
+    };
+  # Enable wayland
+  # services.xserver = {
+  #   enable = true;
+  #   # Enable the KDE Plasma Desktop Environment.
+  #   desktopManager.plasma5.enable = true;
+  # };
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  # services.displayManager = {
+  #   # defaultSession = "plasmawayland";
+  #   sddm = {
+  #     enable = true;
+  #     # this does not work?
+  #     # wayland.enable = true;
+  #   };
+  # };
+
 
   # Configure keymap in X11
   services.xserver = {
@@ -133,11 +133,18 @@
   nixpkgs.config.nvidia.acceptLicense = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  zramSwap = {
+    enable = true;
+    algorithm = "lz4";
+  };
+
+  hardware.graphics.enable = true;
 
 	hardware.nvidia = {
 		# powerManagement.enable = true;
-		package = config.boot.kernelPackages.nvidiaPackages.stable;
-    open = true;
+		# package = config.boot.kernelPackages.nvidiaPackages.beta;
+		# package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+    open = false;
 		modesetting.enable = true;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
@@ -153,11 +160,11 @@
 			intelBusId = "PCI:0:2:0";
     };
 	};  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   # List services that you want to enable:
 

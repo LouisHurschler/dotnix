@@ -85,6 +85,7 @@
   # tcsh
   gnome-keyring
   authenticator
+  oath-toolkit
   
 
   qemu
